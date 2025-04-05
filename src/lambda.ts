@@ -3,8 +3,10 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import serverlessExpress from '@vendia/serverless-express';
 import { Context, Handler } from 'aws-lambda';
 import express from 'express';
+import 'dotenv/config';
 
 import { AppModule } from './app.module';
+import helmet from 'helmet';
 
 let cachedServer: Handler;
 
@@ -16,7 +18,12 @@ async function bootstrap() {
       new ExpressAdapter(expressApp),
     );
 
-    nestApp.enableCors();
+    nestApp.enableCors({
+      origin: '*',
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      allowedHeaders: 'Content-Type, Authorization',
+    });
+    nestApp.use(helmet());
 
     await nestApp.init();
 
