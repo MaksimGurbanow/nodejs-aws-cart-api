@@ -19,8 +19,8 @@ export class CdkStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_20_X,
       memorySize: 256,
       timeout: cdk.Duration.seconds(30),
-      handler: 'handler',
       entry: path.join(__dirname, '../../dist/lambda.js'),
+      handler: 'handler',
       depsLockFilePath: path.join(__dirname, '../../package-lock.json'),
       bundling: {
         minify: false,
@@ -39,6 +39,13 @@ export class CdkStack extends cdk.Stack {
           'reflect-metadata',
         ],
         forceDockerBundling: false,
+      },
+      environment: {
+        DB_HOST: process.env.DB_HOST!,
+        DB_PORT: process.env.DB_PORT!,
+        DB_USERNAME: process.env.DB_USERNAME!,
+        DB_PASSWORD: process.env.DB_PASSWORD!,
+        DB_NAME: process.env.DB_NAME!,
       },
     });
 

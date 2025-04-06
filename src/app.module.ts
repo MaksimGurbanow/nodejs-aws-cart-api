@@ -19,20 +19,25 @@ import { CartItem } from './database/cartItem.entity';
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
+      useFactory: (config: ConfigService) => ({
         type: 'postgres',
-        host: process.env.DB_HOST,
-        port: parseInt(process.env.DB_PORT, 10) || 5432,
-        username: configService.get('DB_USERNAME'),
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
-        synchronize: false,
+        host: config.get('DB_HOST'),
+        port: parseInt(config.get('DB_PORT'), 10) || 5432,
+        username: config.get('DB_USERNAME'),
+        password: config.get('DB_PASSWORD'),
+        database: config.get('DB_DATABASE'),
+        // synchronize: true,
+        logging: true,
+        ssl: {
+          rejectUnauthorized: false,
+        },
         entities: [Cart, CartItem, User],
         extra: {
           query_timeout: 5000,
           statement_timeout: 5000,
           connectionTimeoutMillis: 10000,
           keepalive: true,
+          max: 1,
         },
       }),
       inject: [ConfigService],
