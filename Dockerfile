@@ -17,22 +17,21 @@ RUN npm run build
 RUN echo "=== Build Output ===" && ls -R /app/dist
 
 # === STAGE 2: Create a lightweight runtime image ===
-FROM node:20-alpine
+FROM alpine:3.20
 
 WORKDIR /app
 
 # Copy only production dependencies
 COPY package*.json ./
-RUN npm install --omit=dev
+RUN apk add --no-cache nodejs npm
+RUN npm install --force --omit=dev
+
+RUN npm prune --production
 
 # Copy build output from builder stage
 COPY --from=builder /app/dist ./dist
-
-RUN find ./dist -name "*.d.ts" -type f -delete
-RUN find ./dist -name "*.js.map" -type f -delete
-RUN find ./dist -name "*.spec.js" -type f -delete
-RUN find ./dist -name "tsconfig.build.tsbuildinfo" -type f -delete
+COPY .env .env
 
 # Expose port and start app
-EXPOSE 4000
+EXPOSE 8080
 CMD ["node", "dist/main.js"]

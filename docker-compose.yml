@@ -1,13 +1,12 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: maksimgurbanow/maksim-cart-api:latest
     ports:
       - "4000:4000"
-    working_dir: /app
+    # working_dir: /app
     user: root
     env_file:
       - .env
     environment:
       - NODE_ENV=production
+    restart: always

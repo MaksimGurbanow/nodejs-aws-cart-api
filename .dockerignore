@@ -2,13 +2,16 @@
 .prettierrc
 .eslintrc.js
 .vscode
+.elasticbeanstalk
 
 # Env variables
-.env
 .env.example
 
 # Log files
 *.log
+npm-debug.log
+yarn-error.log
+pnpm-lock.yaml
 
 # even though these files are used to configure docker, they are not needed in container
 Dockerfile
@@ -37,8 +40,11 @@ test
 # not required as we'll install packets while builading an image
 node_modules
 
+*.swp
+
 # exclude all documentary files
 **/*.d.ts
 **/*.spec.ts
 **/*.test.ts
 
+dalle/
