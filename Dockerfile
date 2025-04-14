@@ -30,7 +30,6 @@ RUN npm prune --production
 
 # Copy build output from builder stage
 COPY --from=builder /app/dist ./dist
-COPY .env .env
 
 # Expose port and start app
 EXPOSE 8080
