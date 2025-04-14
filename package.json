@@ -22,14 +22,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "deploy": "npm run build && cd cdk && npm run cdk deploy",
-    "docker:build:nest": "docker build -f Dockerfile -t maksim-cart-api .",
-    "docker:run:nest:local": "docker run -p 127.0.0.1:4000:4000 --env-file .env maksim-cart-api",
-    "compose:global:build": "docker compose -f docker-compose.yml build",
-    "compose:global:up": "docker compose -f docker-compose.yml up -d",
-    "compose:global:down": "docker compose -f docker-compose.yml down",
-    "compose:local:build": "docker compose -f docker-compose.local.yml build",
-    "compose:local:up": "docker compose -f docker-compose.local.yml up -d",
-    "compose:local:down": "docker compose -f docker-compose.local.yml down"
+    "docker:build": "docker build -t maksim-cart-api ."
   },
   "dependencies": {
     "@nestjs/common": "^10.0.3",
